@@ -1,6 +1,6 @@
 package com.alekseeva.androidlabs
 
-class EarbudsModel (
+class PhoneModel (
     var name: String,
     var price: String,
     var brand: String,

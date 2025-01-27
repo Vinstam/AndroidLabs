@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,7 +19,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class Fragment1 : Fragment() {
-    val myAdapter = EarbudsAdapter()
+    val myAdapter = PhoneAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +40,6 @@ class Fragment1 : Fragment() {
     }
 
     fun loadData() {
-        myAdapter.setupEarbuds(EarbudsData.data)
+        myAdapter.setupPhones(PhonesData.data)
     }
 }

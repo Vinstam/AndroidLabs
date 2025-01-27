@@ -4,20 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
 import java.util.regex.Pattern
-
-class RegistrationActivity : AppCompatActivity() {
-    // Поля ввода
+class RegistrationFragment : Fragment() {
     lateinit var loginField: EditText
     lateinit var passwordField: EditText
     lateinit var repeatPasswordField: EditText
+    lateinit var phoneNumberButton: Button
+    lateinit var emailNumberButton: Button
+    lateinit var registrationButton: Button
 
     fun validatePassword(originText: String, repeatText: String): Boolean {
         return originText.length >= 8 && originText == repeatText
@@ -33,21 +35,24 @@ class RegistrationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_registration)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    }
 
-        val phoneNumberButton = findViewById<Button>(R.id.phoneNumberButton)
-        val emailNumberButton = findViewById<Button>(R.id.emailNumberButton)
-        val registrationButton = findViewById<Button>(R.id.registrationButton)
-        this.loginField = findViewById(R.id.login)
-        this.passwordField = findViewById(R.id.password)
-        this.repeatPasswordField = findViewById(R.id.passwordRepeat)
-        loginField.inputType =InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val root = inflater.inflate(R.layout.fragment_registration, container, false)
+
+        phoneNumberButton = root.findViewById(R.id.phoneNumberButton)
+        emailNumberButton = root.findViewById(R.id.emailNumberButton)
+        registrationButton = root.findViewById(R.id.registrationButton)
+        loginField = root.findViewById(R.id.login)
+        passwordField = root.findViewById(R.id.password)
+        repeatPasswordField = root.findViewById(R.id.passwordRepeat)
+
+        loginField.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+
         phoneNumberButton.setOnClickListener({
             phoneNumberButton.setTextColor(resources.getColor(R.color.primary))
             emailNumberButton.setTextColor(resources.getColor(R.color.textSecondary))
@@ -65,30 +70,29 @@ class RegistrationActivity : AppCompatActivity() {
         })
 
         registrationButton.setOnClickListener({
+            val navController = NavHostFragment.findNavController(this)
+            val sharedPreferences = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
             val login = this.loginField.text.toString()
             val password = this.passwordField.text.toString()
 
             val isLoginPassedValidation = if
                     (this.loginField.inputType == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                        this.validateEmail(login)
-                    else this.validateNumber(login)
+                this.validateEmail(login)
+            else this.validateNumber(login)
 
             val isPasswordPassedValidation =
                 this.validatePassword(password, this.repeatPasswordField.text.toString())
 
             if (!(isLoginPassedValidation && isPasswordPassedValidation)) {
-                Toast.makeText(applicationContext, "Введите корректные значения", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireActivity().applicationContext, "Введите корректные значения", Toast.LENGTH_LONG).show();
                 return@setOnClickListener
             }
 
-            val sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
             sharedPreferences.edit().putString("login", login).apply()
             sharedPreferences.edit().putString("password", password).apply()
-
-            val intent = Intent()
-            intent.setClass(applicationContext, ContentActivity::class.java)
-            startActivity(intent)
+            navController.navigate(R.id.fragment_1)
         })
-    }
 
+        return root
+    }
 }
