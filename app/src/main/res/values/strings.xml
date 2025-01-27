@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AndroidLabs</string>
+    <string name="email">Введите email/номер</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment_one">Hello blank fragment 1</string>
+    <string name="fragment_two">Hello blank fragment 2</string>
+    <string name="color_swatch">Цвета</string>
+</resources>
