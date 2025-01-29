@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
+import java.lang.Exception
 import java.util.regex.Pattern
 class RegistrationFragment : Fragment() {
     lateinit var loginField: EditText
@@ -31,6 +32,16 @@ class RegistrationFragment : Fragment() {
 
     fun validateNumber(number: String): Boolean {
         return Pattern.compile("\\+\\d+").matcher(number).matches()
+    }
+
+    fun onRegistrationSuccess() {
+        val navController = NavHostFragment.findNavController(this)
+        navController.navigate(R.id.fragmentOne)
+        setAutologin(requireActivity(), false)
+    }
+
+    fun onRegistrationError(exception: Exception) {
+        Toast.makeText(requireActivity().applicationContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +81,6 @@ class RegistrationFragment : Fragment() {
         })
 
         registrationButton.setOnClickListener({
-            val navController = NavHostFragment.findNavController(this)
-            val sharedPreferences = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
             val login = this.loginField.text.toString()
             val password = this.passwordField.text.toString()
 
@@ -88,9 +97,7 @@ class RegistrationFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            sharedPreferences.edit().putString("login", login).apply()
-            sharedPreferences.edit().putString("password", password).apply()
-            navController.navigate(R.id.fragment_1)
+            createUser(login, password, ::onRegistrationSuccess, ::onRegistrationError)
         })
 
         return root

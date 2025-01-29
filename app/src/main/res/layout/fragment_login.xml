@@ -65,6 +65,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Входить автоматически"
                 android:textColor="@color/textSecondary"
+                android:checked="true"
                 />
         </LinearLayout>
         <Button

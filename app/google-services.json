@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185166021694",
+    "project_id": "phonerating-f04c6",
+    "storage_bucket": "phonerating-f04c6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185166021694:android:6e4557705e1d651851fd6f",
+        "android_client_info": {
+          "package_name": "com.alekseeva.androidlabs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrBtZArpxhkis-jIXDxpL14uv1bw1ikq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

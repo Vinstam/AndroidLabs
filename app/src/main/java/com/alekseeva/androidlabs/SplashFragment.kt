@@ -23,23 +23,19 @@ class SplashFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_splash, container, false)
 
         val navController = NavHostFragment.findNavController(this)
-        val sharedPreferences = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
 
-        if (sharedPreferences.all.isEmpty()) {
+        val activity = requireActivity()
+        if (!isRegistered(activity)) {
             navController.navigate(R.id.fragment_registration)
+            return root
         }
 
-        if (sharedPreferences.getString("login", null) != null &&
-            sharedPreferences.getString("password", null) != null
-        ) {
-            if (sharedPreferences.getBoolean("autologin", false)) {
-                navController.navigate(R.id.fragment_1)
-                return root
-            }
-
-            navController.navigate(R.id.fragment_login)
+        if (isSignedIn()) {
+            navController.navigate(R.id.fragmentOne)
+            return root
         }
 
+        navController.navigate(R.id.fragment_login)
         return root
     }
 }

@@ -1,10 +1,12 @@
 package com.alekseeva.androidlabs
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -35,7 +37,6 @@ class Fragment1 : Fragment() {
         val recycler = root.findViewById<RecyclerView>(R.id.recyclerView)
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = myAdapter
-
         return root
     }
 
